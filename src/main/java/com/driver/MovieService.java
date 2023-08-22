@@ -11,39 +11,39 @@ public class MovieService {
 
     @Autowired
     MovieRepository movieRepository;
-    public ResponseEntity<String> addMovie(Movie movie) {
+    public ResponseEntity addMovie(Movie movie) {
         return movieRepository.addMovie(movie);
     }
 
-    public ResponseEntity<String> addDirector(Director director) {
+    public ResponseEntity addDirector(Director director) {
         return movieRepository.addDirector(director);
     }
 
-    public ResponseEntity<String> addMovieDirectorPair(String movieName, String directorName) {
+    public ResponseEntity addMovieDirectorPair(String movieName, String directorName) {
         return movieRepository.addMovieDirectorPair(directorName , movieName);
     }
 
-    public ResponseEntity<Movie> getMovieByName(String movieName) {
+    public ResponseEntity getMovieByName(String movieName) {
         return movieRepository.getMovieByName(movieName);
     }
 
-    public ResponseEntity<Director> getDirectorByName(String directorName) {
+    public ResponseEntity getDirectorByName(String directorName) {
         return movieRepository.getDirectorByName(directorName);
     }
 
-    public ResponseEntity<List<String>> getMoviesByDirectorName(String directorName) {
+    public ResponseEntity getMoviesByDirectorName(String directorName) {
         return movieRepository.getMoviesByDirectorName(directorName);
     }
 
-    public ResponseEntity<List<String>> findAllMovies() {
+    public ResponseEntity findAllMovies() {
         return movieRepository.findAllMovies();
     }
 
-    public ResponseEntity<String> deleteDitrectorByName(String directorName) {
+    public ResponseEntity deleteDitrectorByName(String directorName) {
         return movieRepository.deleteDitrectorByName(directorName);
     }
 
-    public ResponseEntity<String> deleteAllDirectors() {
+    public ResponseEntity deleteAllDirectors() {
         return movieRepository.deleteAllDirectors();
     }
 }

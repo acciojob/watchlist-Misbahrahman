@@ -20,23 +20,23 @@ public class MovieRepository {
     HashMap<String , List<String>> moviesByDirectors = new HashMap<>();
 
 
-    public ResponseEntity<String> addMovie(Movie movie) {
+    public ResponseEntity addMovie(Movie movie) {
         movies.put(movie.getName() , movie);
-        return new ResponseEntity<>("Successfully Added " + movie.getName() , HttpStatus.OK);
+        return new ResponseEntity("Successfully Added " + movie.getName() , HttpStatus.OK);
     }
 
-    public ResponseEntity<String> addDirector(Director director) {
+    public ResponseEntity addDirector(Director director) {
         directors.put(director.getName() , director);
-        return new ResponseEntity<>("Successfully Added " + director.getName() , HttpStatus.OK);
+        return new ResponseEntity("Successfully Added " + director.getName() , HttpStatus.OK);
     }
 
-    public ResponseEntity<String> addMovieDirectorPair(String directorName, String movieName) {
+    public ResponseEntity addMovieDirectorPair(String directorName, String movieName) {
         if(!movies.containsKey(movieName)){
-            return new ResponseEntity<>("Movie Not Found" , HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Movie Not Found" , HttpStatus.NOT_FOUND);
         }
 
         if(!directors.containsKey(directorName)){
-            return new ResponseEntity<>("Director Not Found" , HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Director Not Found" , HttpStatus.NOT_FOUND);
         }
 
         //if Both Movie and director in database
@@ -47,35 +47,35 @@ public class MovieRepository {
             list.add(movieName);
             moviesByDirectors.put(directorName , list);
         }
-        return new ResponseEntity<>("Succesfully Added " + movieName + " to " + directorName , HttpStatus.OK);
+        return new ResponseEntity("Succesfully Added " + movieName + " to " + directorName , HttpStatus.OK);
     }
 
 
-    public ResponseEntity<Movie> getMovieByName(String movieName) {
-        if(movies.containsKey(movieName))return new ResponseEntity<>(movies.get(movieName) , HttpStatus.OK);
-        return new ResponseEntity<>(null , HttpStatus.NOT_FOUND);
+    public ResponseEntity getMovieByName(String movieName) {
+        if(movies.containsKey(movieName))return new ResponseEntity(movies.get(movieName) , HttpStatus.OK);
+        return new ResponseEntity("Movie Not Found" , HttpStatus.NOT_FOUND);
     }
 
 
-    public ResponseEntity<Director> getDirectorByName(String directorName) {
-        if(directors.containsKey(directorName))return new ResponseEntity<>(directors.get(directorName) , HttpStatus.OK);
-        else return new ResponseEntity<>(null , HttpStatus.BAD_REQUEST);
+    public ResponseEntity getDirectorByName(String directorName) {
+        if(directors.containsKey(directorName))return new ResponseEntity(directors.get(directorName) , HttpStatus.OK);
+        else return new ResponseEntity(null , HttpStatus.BAD_REQUEST);
     }
 
 
-    public ResponseEntity<List<String>> getMoviesByDirectorName(String directorName) {
+    public ResponseEntity getMoviesByDirectorName(String directorName) {
         if(moviesByDirectors.containsKey(directorName)){
-            return new ResponseEntity<>(moviesByDirectors.get(directorName) , HttpStatus.OK);
+            return new ResponseEntity(moviesByDirectors.get(directorName) , HttpStatus.OK);
         }else{
             String errorMessage = "Director not found for name: " + directorName;
-            return new ResponseEntity<>(Collections.singletonList(errorMessage), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(errorMessage, HttpStatus.NOT_FOUND);
         }
     }
 
 
-    public ResponseEntity<List<String>> findAllMovies() {
-        if(movies.size() > 0)return new ResponseEntity<>(getListOfAllMovies() , HttpStatus.OK);
-        return new ResponseEntity<>(Collections.singletonList("No movies Added yet") , HttpStatus.NOT_FOUND);
+    public ResponseEntity findAllMovies() {
+        if(movies.size() > 0)return new ResponseEntity(getListOfAllMovies() , HttpStatus.OK);
+        return new ResponseEntity("No movies Added yet" , HttpStatus.NOT_FOUND);
     }
 
 
@@ -88,7 +88,7 @@ public class MovieRepository {
     }
 
 
-    public ResponseEntity<String> deleteDitrectorByName(String directorName) {
+    public ResponseEntity deleteDitrectorByName(String directorName) {
         if(directors.containsKey(directorName)){
             //del director from db
             directors.remove(directorName);
@@ -98,19 +98,19 @@ public class MovieRepository {
             }
             //del from director pairDb
             moviesByDirectors.remove(directorName);
-            return new ResponseEntity<>("Successfully Deleted " + directorName + " from database" , HttpStatus.OK);
+            return new ResponseEntity("Successfully Deleted " + directorName + " from database" , HttpStatus.OK);
         }
-        return new ResponseEntity<>("Director Not Found" , HttpStatus.NOT_FOUND);
+        return new ResponseEntity("Director Not Found" , HttpStatus.NOT_FOUND);
     }
 
 
-    public ResponseEntity<String> deleteAllDirectors() {
+    public ResponseEntity deleteAllDirectors() {
 
         for(String director : directors.keySet()){
             //calling earlier made func
             if(moviesByDirectors.containsKey(director))deleteDitrectorByName(director);
             else directors.remove(director);
         }
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+        return new ResponseEntity("Success", HttpStatus.OK);
     }
 }
